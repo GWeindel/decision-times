@@ -1,0 +1,13 @@
+*.bdf
+*.fif
+*.nc
+*.pkl
+
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints
+data/raw
+/__pycache__
+*Copy*
+.python-version
+hmp/_version.py
