@@ -1,0 +1,87 @@
+Opening raw data file anon_raw/9_raw.fif...
+Isotrak not found
+    Range : 0 ... 2885631 =      0.000 ...  2817.999 secs
+Ready.
+Reading 0 ... 2885631  =      0.000 ...  2817.999 secs...
+EEG channel type selected for re-referencing
+Creating RawArray with float64 data, n_channels=2, n_times=2885632
+    Range : 0 ... 2885631 =      0.000 ...  2817.999 secs
+Ready.
+Added the following bipolar channels:
+EOGH, EOGV
+The unit for channel(s) EXG1, EXG2, EXG4, EXG5, EXG6, Erg1 has changed from V to NA.
+NOTE: pick_types() is a legacy function. New code should use inst.pick(...).
+Trigger channel Status has a non-zero initial value of 65536 (consider using initial_event=True to detect this event)
+4465 events found on stim channel Status
+Event IDs: [    3     4     5     6     7     8     9    10    11    12    13    14
+    15    16    17    18    19    20    21    22    23    24    25    26
+    27    28    29    30    31    32    33    34    35    36    37    38
+    39    40    41    42    43    44    45    46    47    48    49    50
+    51    52    53    54    55    56    57    58    59    60    61    62
+    63    64    65    66    67    68    69    70    71    72    73    74
+    75    76    77    78    79    80    81    82    83    84    85    86
+    87    88    89    90    91    92    93    94    95    99   100   101
+   199   200   201 65790]
+Filtering raw data in 1 contiguous segment
+Setting up low-pass filter at 40 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal lowpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Upper passband edge: 40.00 Hz
+- Upper transition bandwidth: 10.00 Hz (-6 dB cutoff frequency: 45.00 Hz)
+- Filter length: 339 samples (0.331 s)
+
+NOTE: plot_psd() is a legacy function. New code should use .compute_psd().plot().
+Setting 35228 of 2373632 (1.48%) samples to NaN, retaining 2338404 (98.52%) samples.
+Effective window size : 2.000 (s)
+At least one good data span is shorter than n_per_seg, and will be analyzed with a shorter window than the rest of the file.
+Plotting power spectral density (dB=True).
+Channels marked as bad:
+none
+EEG channel type selected for re-referencing
+Applying average reference.
+Applying a custom ('EEG',) reference.
+Filtering raw data in 1 contiguous segment
+Setting up high-pass filter at 1 Hz
+
+FIR filter parameters
+---------------------
+Designing a one-pass, zero-phase, non-causal highpass filter:
+- Windowed time-domain design (firwin) method
+- Hamming window with 0.0194 passband ripple and 53 dB stopband attenuation
+- Lower passband edge: 1.00
+- Lower transition bandwidth: 1.00 Hz (-6 dB cutoff frequency: 0.50 Hz)
+- Filter length: 3381 samples (3.302 s)
+
+Not setting metadata
+1116 matching events found
+No baseline correction applied
+0 projection items activated
+Using data from preloaded Raw for 1116 events and 3278 original time points (prior to decimation) ...
+0 bad epochs dropped
+Fitting ICA to data using 32 channels (please be patient, this may take a while)
+Selecting by number: 31 components
+Fitting ICA took 33.2s.
+Using EOG channels: EOGH, EOGV
+More events than default colors available. You should pass a list of unique colors.
+Not setting metadata
+1116 matching events found
+No baseline correction applied
+0 projection items activated
+Channels marked as bad:
+none
+Applying ICA to Raw instance
+    Transforming to ICA space (31 components)
+    Zeroing out 2 ICA components
+    Projecting back using 32 PCA components
+Setting channel interpolation method to {'eeg': 'spline'}.
+No bad channels to interpolate. Doing nothing...
+Adding metadata with 6 columns
+1116 matching events found
+Setting baseline interval to [-0.19921875, 0.0] s
+Applying baseline correction (mode: mean)
+Using data from preloaded Raw for 1116 events and 3278 original time points (prior to decimation) ...
+0 bad epochs dropped
