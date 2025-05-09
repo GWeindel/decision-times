@@ -12,4 +12,3 @@ data/raw
 /__pycache__
 *Copy*
 .python-version
-hmp/_version.py
