@@ -2,6 +2,8 @@
 *.fif
 *.nc
 *.pkl
+*.png
+*.xcf
 
 __pycache__/
 *.py[cod]
