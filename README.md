@@ -42,4 +42,6 @@ pip install hmp==1.0.0-b1
 jupyter lab
 ```
 
-Feel free to open issues on this repository in case problems arise during reproduction
+Feel free to open issues on this repository in case problems arise during reproduction.
+
+For more information on how to run HMP on other datasets, or more generally on the method see the documentation for the latest version on  [readthedocs: https://hmp.readthedocs.io/en/latest/welcome.html](https://hmp.readthedocs.io/en/latest/welcome.html)
