@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 from mne import compute_covariance, cov, read_epochs, filter
 from scipy.signal import lfilter
+import gc
 
 # Defininf a half-sine, as the one expected by HMP
 class HalfSine:
@@ -18,10 +19,9 @@ class HalfSine:
 
 # Class for evidence accumulation traces
 class EvidenceAccumulation:
-    def __init__(self, sfreq, drift_rate, time_steps=20000, n_simulations=100000):
+    def __init__(self, sfreq, drift_rate, time_steps=2000, n_simulations=100000):
         traces = np.zeros((n_simulations, time_steps))
         decision_times = np.zeros(n_simulations)
-        time_steps = int(time_steps/(1000/sfreq))# Same sampling frequency as signal
         self.sfreq = sfreq
         self.traces = {}
         self.decision_times = {}
@@ -51,7 +51,7 @@ class EvidenceAccumulation:
         # To mitigate randomness we average the top 10 traces that are closest to the actual time     
         top_10 = np.argsort(np.abs(self.decision_times - time))[:10]
         if np.mean(np.abs(self.decision_times[top_10] - time)) > 50/(1000/self.sfreq):
-            warn(f'distance is {np.mean(np.abs(self.decision_times[top_10] - time))} samples away, increase n_simulations?')
+            print(f'distance is {np.mean(np.abs(self.decision_times[top_10] - time))} samples away, increase n_simulations?')
         average_trace = np.mean(self.traces[top_10], axis = 0)
         average_trace = average_trace[:int(time)+1]
         return average_trace
@@ -70,7 +70,9 @@ def simulate_from_hmpfit(epoch_data,
     """
     sfreq = epoch_data.sfreq
     n_chan, _, n_events = np.shape(weights)
-    surrogate = epoch_data.copy(deep=True)
+    surrogate = epoch_data
+    del epoch_data
+    gc.collect()
     surrogate['data'] = 0 * surrogate['data']#Overwrite all the real data
     surrogate = surrogate.stack({'trial':["participant","epoch"]})
     # Add event activations at corresponding times
@@ -109,13 +111,13 @@ def simulate_from_hmpfit(epoch_data,
         # Add noise, using participant covariance among electrodes and an IIR filter
         for participant in surrogate.participant:
             surrogate.sel(participant=participant)["data"] += create_noise(participant.values, \
-                        sfreq, n_trials=len(surrogate.epoch))[:,:,:len(surrogate.sel(participant=participant)["data"])]
+                        sfreq, n_trials=len(surrogate.epoch), n_samples=np.shape(surrogate.sel(participant=participant)["data"])[2])
    
     surrogate = surrogate.unstack()
     return surrogate
 
 
-def create_noise(participant, sfreq, n_trials):
+def create_noise(participant, sfreq, n_trials, n_samples):
     """Create spatially colored and temporally IIR-filtered noise.
     
     Adapted from: https://github.com/mne-tools/mne-python/blob/maint/1.9/mne/simulation/evoked.py#L171
@@ -129,7 +131,6 @@ def create_noise(participant, sfreq, n_trials):
     data_std = np.std(epochs.get_data()[:,:,:20])
     data_cov = cov.prepare_noise_cov(data_cov, epochs.info, verbose=False)
     _, _, colorer = cov.compute_whitener(data_cov, pca=True, return_colorer=True, verbose=False)
-    n_samples = int(np.rint(3000/(1000/sfreq)))
     noise_matrix = np.zeros((n_trials, len(epochs.info["ch_names"]), n_samples))
     for trial in range(n_trials):
         noise = np.dot(colorer, np.random.standard_normal((colorer.shape[1], n_samples)))
